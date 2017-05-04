@@ -7,6 +7,7 @@
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
   <script>
 
     $(document).ready(function () {
@@ -16,11 +17,13 @@
     })
 
     function init() {
-      $.ajax('/storage/getFolders')
-      .then(function (data) {
-        $('body').html(data);
 
-        $('.list').append("<div class='item'>" + data + "</div>");
+      $.ajax('/storage/getFolders')
+      .then(function (datas) {
+        datas = _.sortBy(datas);
+        datas.forEach(function (data) {
+          $('.list').append("<div class='item'>" + data + "</div>");
+        })
 
       })
       .catch(function (err) {
