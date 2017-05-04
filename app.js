@@ -5,19 +5,9 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const index = require('./routes/index');
 const users = require('./routes/users');
-
-// FileSystem.readdirSync(AppZet.path + controllerPath).forEach(function (file) {
-//   let controller = require(AppZet.path + controllerPath + file);
-//   let controllerName = file.split('.')[0];
-//   AppZet.controllers[controllerName] = controller;
-// });
-
-fs.readdirSync(__dirname + '/api/controllers').forEach((file)=> {
-  global[file.replace('.js', '')] = require(__dirname + '/api/controllers/' + file);
-})
-
+const Promise = require('bluebird');
+const index = require('./routes/index');
 
 var app = express();
 
@@ -31,8 +21,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.resolve('/Volumes/Seagate Backup Plus Drive')));
+
+
+fs.readdirSync(__dirname + '/api/controllers').forEach((file)=> {
+  global[file.replace('.js', '')] = require(__dirname + '/api/controllers/' + file);
+});
 
 app.use('/', index);
 app.use('/users', users);
@@ -41,18 +36,23 @@ app.use('/users', users);
 app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
+  console.log("????")
   next(err);
 });
 
 // error handler
 app.use(function (err, req, res, next) {
+  console.log(err);
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
   // res.status(err.status || 500);
-  res.redirect('/');
+  if (err.message) {
+    res.status(500).send(err.message);
+  } else
+    res.redirect('/');
 });
 
 module.exports = app;

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>StorageApi Testing</title>
+  <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+  <script>
+
+    $(document).ready(function () {
+
+      init();
+
+    })
+
+    function init() {
+      $.ajax('/storage/getFolders')
+      .then(function (data) {
+        $('body').html(data);
+
+        $('.list').append("<div class='item'>" + data + "</div>");
+
+      })
+      .catch(function (err) {
+        console.log(err);
+        $('body').html("Bad Request.");
+      })
+    }
+
+  </script>
+</head>
+<body>
+
+<div class="list">
+
+</div>
+</body>
+</html>
