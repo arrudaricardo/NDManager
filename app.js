@@ -1,12 +1,23 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const fs = require('fs');
+const index = require('./routes/index');
+const users = require('./routes/users');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+// FileSystem.readdirSync(AppZet.path + controllerPath).forEach(function (file) {
+//   let controller = require(AppZet.path + controllerPath + file);
+//   let controllerName = file.split('.')[0];
+//   AppZet.controllers[controllerName] = controller;
+// });
+
+fs.readdirSync(__dirname + '/api/controllers').forEach((file)=> {
+  global[file.replace('.js', '')] = require(__dirname + '/api/controllers/' + file);
+})
+
 
 var app = express();
 
