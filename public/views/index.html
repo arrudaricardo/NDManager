@@ -26,8 +26,7 @@
         datas = datas.splice(1);
         datas.forEach(function (data) {
           $('.list').append("<div class='item'>" + data + "</div>");
-        })
-
+        });
       })
       .catch(function (err) {
         console.log(err);
@@ -39,15 +38,7 @@
     function addListener() {
 
       $('.list').click(function (e) {
-        if (e.target.className = 'item') {
-
-          $(e.target)
-          .mouseenter(function () {
-            $(this).css('font-weight', 300);
-          })
-          .mouseleave(function () {
-            $(this).css('font-weight', 100);
-          })
+        if (e.target.className == 'item') {
 
         }
       })
@@ -62,8 +53,10 @@
 
     .item {
       font-weight: 100;
-      padding: 5px;
+      padding-bottom: 5px;
+      padding-top: 5px;
     }
+
   </style>
 </head>
 <body>
