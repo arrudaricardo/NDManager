@@ -11,10 +11,11 @@ router.get('/', function (req, res, next) {
     if (err) {
       res.send(err);
     } else {
-      files.forEach(file => {
-        console.log(file);
-        res.send(file);
-      });
+      res.send(files);
+      // files.forEach(file => {
+      //   console.log(file);
+      //   res.send(file);
+      // });
     }
   })
 });
